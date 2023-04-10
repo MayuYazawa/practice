@@ -1,0 +1,2 @@
+class EventNoticesController < ApplicationController
+end
