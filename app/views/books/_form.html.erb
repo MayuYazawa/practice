@@ -1,0 +1,46 @@
+<%= form_with model:book,local:true do |f| %>
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: 'form-control book_title' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :opinion %>
+    <%= f.text_area :body, class: 'form-control book_body' %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label "Tag" %>
+    <%= f.text_field :tag_name, class: 'form-control book_tag_name' %>
+  </div>
+  
+  <% if book.id.nil? %>
+    <div class="form-group" id="star">
+      <%= f.label :rate %>
+      <%= f.hidden_field :rate, id: :review_star, class: 'form-control' %>
+      <div id="post_raty"></div>
+    </div>
+    <script>
+      $(document).on('turbolinks:load', function() {
+        let elem = document.querySelector('#post_raty');
+        if (elem == null) return;
+  
+        elem.innerHTML = ""
+        let opt = {  
+          starOn: "<%= asset_path('star-on.png') %>",
+          starOff: "<%= asset_path('star-off.png') %>",
+          starHalf: "<%= asset_path('star-half.png') %>",
+          scoreName: 'book[rate]',
+        };
+        raty(elem, opt);
+      });
+    </script>
+  <% else %>
+    <div class="form-group">
+      <%= render "static_rate", book: book %>
+    </div>
+  <% end %>
+  
+  <div class="form-group">
+    <%= f.submit class: 'btn btn-success' %>
+  </div>
+<% end %>
